@@ -1,11 +1,7 @@
 # PPS-for-TP53-mutant-HCC
 Code and data accompanying the 'A novel signature for precise prognosis and personalized treatment prediction in TP53-mutant hepatocellular carcinoma' paper
 
-The main code is split into 2 parts:
-1. Construction of PPS model
-2. Estimation of drug response in clinical samples
-
-We will only provide test data, full data supporting the findings of this study are available as follows:
+We will only provide example data, full data supporting the findings of this study are available as follows:
 RNA-seq data of CHCC cohort are available through NODE database (https://www.biosino.org/node). 
 RNA-seq data of LIRI cohort are available through ICGC portal (https://dcc.icgc.org/projects/LIRI-JP). 
 RNA-seq data of LIHC are available through TCGA website (https://portal.gdc.cancer.gov/repository). 
