@@ -56,7 +56,7 @@ library("Hmisc")
 load("testdata3.Rdata")
 
 # conatructing RSF model
-res.rsf <- rfsrc(Surv(OStime, OS) ~ ., data2, nodesize = 3, proximity=T, tree.err = T, 
+res.rsf <- rfsrc(Surv(OStime, OS) ~ ., data2, nodesize = 20, proximity=T, tree.err = T, 
                         forest = T, ntree = 1000, splitrule = "logrank", importance = TRUE)
 
 # MD-based virable selection
@@ -65,19 +65,19 @@ res.rsf <- rfsrc(Surv(OStime, OS) ~ ., data2, nodesize = 3, proximity=T, tree.er
  res.trcoob<-c()
  res.testc <-c()
  topvars   <-vector(mode="character",length=25) 
-    for (j in 1:10) { 
+    for (j in 1:1000) { 
      print(paste("trying for",j,"times"))
      vars<-var.select(object=res.rsf,
                      cause =1,
                      method = "md", 
                      conservative = c("high"), 
-                     ntree = 500,
-                     nodesize = 3, splitrule = "logrank", nsplit = 10, xvar.wt = NULL,
+                     ntree = 1000,
+                     nodesize = 20, splitrule = "logrank", nsplit = 3, xvar.wt = NULL,
                      refit = T, fast = T,
                      na.action = c("na.impute"), 
                      always.use = NULL, nrep = 10, K = 5, nstep = 1,
                      prefit =  list(action = T, ntree = 1000,
-                                        nodesize = 3, nsplit = 1),
+                                        nodesize = 20, nsplit = 3),
                      verbose = TRUE)
     
     # calculating C-index
