@@ -25,6 +25,7 @@ save(data1,file="testdata2.Rdata")
 
 ---------------------------------------------
 # bootstrap-based cox
+# choose replace = FALSE for sampling without replacement (SRSWOR)
 library(survival)
 load("testdata2.Rdata")
 
@@ -32,7 +33,7 @@ patients=rownames(data1)
 outTab=data.frame()
 
 for(gene in colnames(data1[,3:ncol(data1)])){
-Mboot <- replicate(100, expr = {
+Mboot <- replicate(1000, expr = {
     indices <- sample(patients, size =nrow(data1)*0.7, replace = TRUE)
     data<-data1[indices,]
     fmla1 <- as.formula(Surv(data[,"OStime"],data[,"OS"])~data[,gene])
@@ -44,7 +45,7 @@ times=length(Mboot[which(Mboot<0.05)])
 outTab=rbind(outTab,cbind(gene=gene,times=times))
 }
 
-bootGene <- outTab[as.numeric(as.character(outTab$times))>10,]
+bootGene <- outTab[as.numeric(as.character(outTab$times))>900,]
 data2 <- cbind(data1[,1:2],data1[,as.character(bootGene$gene)])
 save(data2,file="testdata3.Rdata")
 
@@ -77,7 +78,7 @@ res.rsf <- rfsrc(Surv(OStime, OS) ~ ., data2, nodesize = 20, proximity=T, tree.e
                      nodesize = 20, splitrule = "logrank", nsplit = 3, xvar.wt = NULL,
                      refit = T, fast = T,
                      na.action = c("na.impute"), 
-                     always.use = NULL, nrep = 10, K = 5, nstep = 1,
+                     always.use = NULL, nrep = 10,
                      prefit =  list(action = T, ntree = 1000,
                                     nodesize = 20, nsplit = 3),
                      verbose = TRUE)
