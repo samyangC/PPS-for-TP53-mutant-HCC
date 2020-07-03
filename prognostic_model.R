@@ -19,7 +19,7 @@ P=coxResult$coefficients[,"Pr(>|z|)"]))
 }
 
 sigGene <- coxR[as.numeric(as.character(coxR$P))<0.05,]
-data1 <- cbind(data[,1:2],data[,sigGene$id])
+data1 <- cbind(data[,1:2],data[,as.character(sigGene$id)])
 save(data1,file="testdata2.Rdata")
 
 
@@ -45,7 +45,7 @@ outTab=rbind(outTab,cbind(gene=gene,times=times))
 }
 
 bootGene <- outTab[as.numeric(as.character(outTab$times))>10,]
-data2 <- cbind(data1[,1:2],data1[,bootGene$gene])
+data2 <- cbind(data1[,1:2],data1[,as.character(bootGene$gene)])
 save(data2,file="testdata3.Rdata")
 
 
@@ -60,7 +60,9 @@ res.rsf <- rfsrc(Surv(OStime, OS) ~ ., data2, nodesize = 20, proximity=T, tree.e
                         forest = T, ntree = 1000, splitrule = "logrank", importance = TRUE)
 
 # MD-based virable selection
-# method="vh" is used for problems where the number of variables is substantially larger than the sample size (e.g., p/n is greater than 10). It is always prefered to use method="md", but to find more variables, or when computations are high, variable hunting may be preferred.
+# method="vh" is used for problems where the number of variables is substantially larger than the sample size 
+# (e.g., p/n is greater than 10). It is always prefered to use method="md", but to find more variables, 
+# or when computations are high, variable hunting may be preferred.
  res.trc   <-c()
  res.trcoob<-c()
  res.testc <-c()
@@ -77,7 +79,7 @@ res.rsf <- rfsrc(Surv(OStime, OS) ~ ., data2, nodesize = 20, proximity=T, tree.e
                      na.action = c("na.impute"), 
                      always.use = NULL, nrep = 10, K = 5, nstep = 1,
                      prefit =  list(action = T, ntree = 1000,
-                                        nodesize = 20, nsplit = 3),
+                                    nodesize = 20, nsplit = 3),
                      verbose = TRUE)
     
     # calculating C-index
@@ -102,7 +104,7 @@ res.rsf <- rfsrc(Surv(OStime, OS) ~ ., data2, nodesize = 20, proximity=T, tree.e
  bestresult<-result[result$res.trcoob.cindex==max(result$res.trcoob.cindex),] 
  bestvars<-unique(topvars[rownames(bestresult),]) 
 
-data3 <- cbind(data2[,1:2],data2[,bestvars])
+data3 <- cbind(data2[,1:2],data2[,as.character(bestvars)])
 save(data3,file="testdata4.Rdata")
 
 
