@@ -1,5 +1,5 @@
 # PPS-for-TP53-mutant-HCC
-Code and data accompanying the 'Prognosis and personalized treatment prediction in TP53-mutant hepatocellular carcinoma: An in silico strategy towards precision oncology' paper
+Code accompanying the 'Prognosis and personalized treatment prediction in TP53-mutant hepatocellular carcinoma: An in silico strategy towards precision oncology' paper for PPS model construction
 
 Full data supporting the construction of PPS model are available as follows:
 RNA-seq data of CHCC cohort are available through NODE database (https://www.biosino.org/node). 
