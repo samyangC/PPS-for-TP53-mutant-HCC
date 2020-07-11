@@ -1,4 +1,7 @@
 library(survival)
+library("randomForestSRC")
+library("Hmisc")
+
 load("testdata.Rdata")
 dataEXP <- data[,3:ncol(data)]
 dataEXP <- scale(dataEXP)
@@ -21,9 +24,7 @@ sigGene <- coxR[as.numeric(as.character(coxR$P))<0.05,]
 data1 <- cbind(data[,1:2],data[,as.character(sigGene$id)])
 save(data1,file="testdata2.Rdata")
 
-library(survival)
 load("testdata2.Rdata")
-
 patients=rownames(data1)
 outTab=data.frame()
 
@@ -45,10 +46,7 @@ bootGene <- outTab[as.numeric(as.character(outTab$times))>900,]
 data2 <- cbind(data1[,1:2],data1[,as.character(bootGene$gene)])
 save(data2,file="testdata3.Rdata")
 
-library("randomForestSRC")
-library("Hmisc")
 load("testdata3.Rdata")
-
 res.rsf <- rfsrc(Surv(OStime, OS) ~ ., data2, nodesize = 20, proximity=T, tree.err = T, 
                         forest = T, ntree = 1000, splitrule = "logrank", importance = TRUE)
 
