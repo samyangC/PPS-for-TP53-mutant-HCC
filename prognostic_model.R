@@ -21,13 +21,13 @@ sigGene <- coxR[as.numeric(as.character(coxR$P))<0.05,]
 data1 <- cbind(data[,1:2],data[,as.character(sigGene$id)])
 save(data1,file="testdata2.Rdata")
 
-# choose replace = FALSE for sampling without replacement (SRSWOR)
 library(survival)
 load("testdata2.Rdata")
 
 patients=rownames(data1)
 outTab=data.frame()
 
+# choose replace = FALSE for sampling without replacement (SRSWOR)
 for(gene in colnames(data1[,3:ncol(data1)])){
 Mboot <- replicate(1000, expr = {
     indices <- sample(patients, size =nrow(data1)*0.7, replace = TRUE)
