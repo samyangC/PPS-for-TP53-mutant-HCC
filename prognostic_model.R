@@ -21,8 +21,6 @@ sigGene <- coxR[as.numeric(as.character(coxR$P))<0.05,]
 data1 <- cbind(data[,1:2],data[,as.character(sigGene$id)])
 save(data1,file="testdata2.Rdata")
 
-
----------------------------------------------
 # choose replace = FALSE for sampling without replacement (SRSWOR)
 library(survival)
 load("testdata2.Rdata")
@@ -47,8 +45,6 @@ bootGene <- outTab[as.numeric(as.character(outTab$times))>900,]
 data2 <- cbind(data1[,1:2],data1[,as.character(bootGene$gene)])
 save(data2,file="testdata3.Rdata")
 
-
-----------------------------------------------
 library("randomForestSRC")
 library("Hmisc")
 load("testdata3.Rdata")
