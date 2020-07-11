@@ -1,4 +1,3 @@
-# cox regression
 library(survival)
 load("testdata.Rdata")
 dataEXP <- data[,3:ncol(data)]
@@ -24,7 +23,6 @@ save(data1,file="testdata2.Rdata")
 
 
 ---------------------------------------------
-# bootstrap-based cox
 # choose replace = FALSE for sampling without replacement (SRSWOR)
 library(survival)
 load("testdata2.Rdata")
@@ -51,7 +49,6 @@ save(data2,file="testdata3.Rdata")
 
 
 ----------------------------------------------
-# MD-based RSF 
 library("randomForestSRC")
 library("Hmisc")
 load("testdata3.Rdata")
