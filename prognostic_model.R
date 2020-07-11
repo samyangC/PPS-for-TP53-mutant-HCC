@@ -49,11 +49,9 @@ library("randomForestSRC")
 library("Hmisc")
 load("testdata3.Rdata")
 
-# conatructing RSF model
 res.rsf <- rfsrc(Surv(OStime, OS) ~ ., data2, nodesize = 20, proximity=T, tree.err = T, 
                         forest = T, ntree = 1000, splitrule = "logrank", importance = TRUE)
 
-# MD-based virable selection
 # method="vh" is used for problems where the number of variables is substantially larger than the sample size 
 # (e.g., p/n is greater than 10). It is always prefered to use method="md", but to find more variables, 
 # or when computations are high, variable hunting may be preferred.
@@ -76,25 +74,21 @@ res.rsf <- rfsrc(Surv(OStime, OS) ~ ., data2, nodesize = 20, proximity=T, tree.e
                                     nodesize = 20, nsplit = 3),
                      verbose = TRUE)
     
-    # calculating C-index
     trc<-rcorr.cens(-vars$rfsrc.refit.obj$predicted, 
                     Surv(data2$OStime, data2$OS))["C Index"]
     trcoob<-rcorr.cens(-vars$rfsrc.refit.obj$predicted.oob, 
                     Surv(data2$OStime, data2$OS))["C Index"]
     
-    # collecting C-index in every iteration
     res.trc    <-rbind(res.trc, trc)
     res.trcoob <-rbind(res.trcoob, trcoob)
     topvars    <-rbind(topvars,vars$topvars)
     }
 
-# result intergrating
  result<-data.frame(res.trc,res.trcoob,row.names = 1:nrow(res.trc))
  colnames(result)<-c("res.trc.cindex","res.trcoob.cindex")
  topvars<-as.matrix(topvars)[-1,] 
  rownames(topvars)<-c(1:dim(topvars)[1])
 
-# finding best model
  bestresult<-result[result$res.trcoob.cindex==max(result$res.trcoob.cindex),] 
  bestvars<-unique(topvars[rownames(bestresult),]) 
 
